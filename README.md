@@ -1,8 +1,17 @@
 # React + Vite
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This project is built using React and Vite. Follow the instructions below to get the frontend up and running on your local machine.
 
-Currently, two official plugins are available:
+## Prerequisites
+Make sure you have the following installed on your system before proceeding:
+- [Node.js](https://nodejs.org/en/) (at least v12)
+- npm (comes with Node.js) or yarn
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Steps to Run the Frontend
+1. Clone the repo ```git clone https://github.com/erwannd/cs601sideproject-frontend.git```
+
+2. CD to project folder ```cd cs601sideproject-frontend```
+
+3. Install dependencies ```npm install```
+
+4. Run the server ```npm run dev```
