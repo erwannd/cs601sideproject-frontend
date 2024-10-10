@@ -23,6 +23,9 @@ export const NavBar = () => {
         <li>
           <NavLink to="/register">Register</NavLink>
         </li>
+        <li>
+        <NavLink to="/findbytext">Find by text</NavLink>
+        </li>
       </ul>
     </nav>
   );
