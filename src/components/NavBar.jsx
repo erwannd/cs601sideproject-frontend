@@ -26,6 +26,9 @@ export const NavBar = () => {
         <li>
         <NavLink to="/findbytext">Find by text</NavLink>
         </li>
+        <li>
+          <NavLink to="/findbyimage">Find by image</NavLink>
+        </li>
       </ul>
     </nav>
   );

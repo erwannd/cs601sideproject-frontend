@@ -8,6 +8,8 @@ import { NavBar } from "./components/NavBar";
 import Home from './pages/Home';
 import Login from "./pages/Login";
 import Register from './pages/Register';
+import ImageQuery from "./pages/ImageQuery";
+import TextQuery from "./pages/TextQuery";
 
 function App() {
   // this is what the response look like, its an array of json objects
@@ -22,6 +24,7 @@ function App() {
           <Route path="/register" element={<Register />} />
           <Route path="/login" element={<Login />} />
           <Route path="/findbytext" element={<TextQuery />} />
+          <Route path="/findbyimage" element={<ImageQuery />} /> 
         </Routes>
       </div>
     </div>
