@@ -1,61 +1,69 @@
 import './App.css'
 
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import React, { useState, useEffect } from 'react';
 
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { onAuthStateChanged, signOut } from 'firebase/auth';
+import { auth } from './config/firebaseconfig';
+
+import { Route, Routes } from 'react-router-dom';
 import { NavBar } from "./components/NavBar";
-import Home from './pages/Home';
+import Home from "./pages/Home";
 import Login from "./pages/Login";
-import Register from './pages/Register';
+import Register from "./pages/Register";
 import ImageQuery from "./pages/ImageQuery";
 import TextQuery from "./pages/TextQuery";
 
 function App() {
-  // this is what the response look like, its an array of json objects
-  
+  const [user, setUser] = useState(null); // Logged-in user
+  const [token, setToken] = useState(null); // Token for current user
+
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, async (user) => {
+      if (user) {
+        setUser(user);
+        const tkn = await user.getIdToken();
+        setToken(tkn);
+      } else {
+        setUser(null);
+        setToken(null);
+      }
+    });
+
+    return () => unsubscribe();
+  }, []);
+
+
+  const handleLogout = async () => {
+    try {
+      await signOut(auth);
+      setUser(null);
+    } catch (error) {
+      console.error('Sign-out error', error);
+    }
+  };
+
 
   return (
     <div className="App">
-      <NavBar />
+      <NavBar user={user} handleLogout={handleLogout}/>
       <div className='main-container'>
         <Routes>
-          <Route path="/" element={<Home />} />
+          <Route path="/" element={<Home userId={user?.uid}/>} />
           <Route path="/register" element={<Register />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/findbytext" element={<TextQuery />} />
-          <Route path="/findbyimage" element={<ImageQuery />} /> 
+          <Route path="/login" element={<Login setUser={setUser}/>} />
+          {user ? (
+            <>
+              <Route path="/findbyimage" element={<ImageQuery />} />
+              <Route path="/findbytext" element={<TextQuery />} />
+            </>
+          ) : (
+            <Route path="*" element={<p>Please log in to access these features.</p>} />
+          )}
         </Routes>
       </div>
     </div>
   );
-
-  // const [images, setImages] = useState([]);
-  // const text = "two dogs";
-
-  // useEffect(() => {
-  //   // localhost:8080/api/search/text?text="two dogs"
-  //   axios.get(`http://localhost:8080/api/search/text?text=${text}`)
-  //     .then(response => {
-  //       setImages(response.data);
-  //     })
-  //     .catch(error => {
-  //       console.error('Error fetching data:', error);
-  //     });
-  // }, []);
-
-  // return (
-  //   <div>
-  //     <h2>Images</h2>
-  //     <ul>
-  //       {images.map(img => (
-  //         <li key={img.id}>
-  //           {img.title} (id: {img.id}) (url: {img.url}) (score: {img.score})
-  //         </li>
-  //       ))}
-  //     </ul>
-  //   </div>
-  // );
 }
 
 export default App;

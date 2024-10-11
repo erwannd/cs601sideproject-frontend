@@ -3,13 +3,13 @@ import React, { useState } from "react";
 import "./NavBar.css";
 import { Link, NavLink } from "react-router-dom";
 
-export const NavBar = () => {
+export const NavBar = ({ user, handleLogout }) => {
   const [menuOpen, setMenuOpen] = useState(false);
 
   return (
     <nav>
       <Link to="/" className="title">
-        CS601 side project
+        Home
       </Link>
       <div className="menu" onClick={() => setMenuOpen(!menuOpen)}>
         <span></span>
@@ -18,17 +18,26 @@ export const NavBar = () => {
       </div>
       <ul className={menuOpen ? "open" : ""}>
         <li>
-          <NavLink to="/login">Login</NavLink>
-        </li>
-        <li>
-          <NavLink to="/register">Register</NavLink>
-        </li>
-        <li>
-        <NavLink to="/findbytext">Find by text</NavLink>
-        </li>
-        <li>
           <NavLink to="/findbyimage">Find by image</NavLink>
         </li>
+        <li>
+          <NavLink to="/findbytext">Find by text</NavLink>
+        </li>
+
+        {user ? (
+          <li onClick={handleLogout}>
+            <NavLink to="/">Logout</NavLink>
+          </li>
+        ) : (
+          <>
+            <li>
+              <NavLink to="/login">Login</NavLink>
+            </li>
+            <li>
+              <NavLink to="/register">Register</NavLink>
+            </li>
+          </>
+        )}
       </ul>
     </nav>
   );
