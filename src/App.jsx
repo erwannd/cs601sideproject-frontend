@@ -12,6 +12,7 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import ImageQuery from "./pages/ImageQuery";
 import TextQuery from "./pages/TextQuery";
+import UploadImage from"./pages/UploadImage";
 
 function App() {
   const [user, setUser] = useState(null); // Logged-in user
@@ -56,6 +57,7 @@ function App() {
             <>
               <Route path="/findbyimage" element={<ImageQuery />} />
               <Route path="/findbytext" element={<TextQuery />} />
+              <Route path="/uploadimage" element={<UploadImage token={token}/>} />
             </>
           ) : (
             <Route path="*" element={<p>Please log in to access these features.</p>} />
