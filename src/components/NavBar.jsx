@@ -23,6 +23,9 @@ export const NavBar = ({ user, handleLogout }) => {
         <li>
           <NavLink to="/findbytext">Find by text</NavLink>
         </li>
+        <li>
+          <NavLink to="/uploadimage">Upload</NavLink>
+        </li>
 
         {user ? (
           <li onClick={handleLogout}>
@@ -35,9 +38,6 @@ export const NavBar = ({ user, handleLogout }) => {
             </li>
             <li>
               <NavLink to="/register">Register</NavLink>
-            </li>
-            <li>
-              <NavLink to="/uploadimage">Upload</NavLink>
             </li>
           </>
         )}
