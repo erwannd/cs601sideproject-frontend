@@ -44,6 +44,18 @@ function App() {
     }
   };
 
+  // I want the profile route that shows in the banner to be linked to the userid.
+  // The userid can be obtained when the user login using firebase, so the profile 
+  // option would only show up if the user is logged in.
+  // But I also want the Profile component to be generic. So, if I am a user and 
+  // I am logged in, I can view other users' profile, with some limitations. For example,
+  // I wouldn't be able to see their email etc.
+  // In the future I would like to extend this by enabling the logged in user to change their
+  // profile picture and change their username, which they should not be able to if the user
+  // is viewing someone else's profile. Does this mean I need to pass in userId or logged in
+  // state in the Profile component? Can you explain how I can implement this?
+  // I am very much a beginner in handling user login and, so if you find something wrong 
+  // do mention it.
 
   return (
     <div className="App">
