@@ -9,6 +9,7 @@ import { Route, Routes } from 'react-router-dom';
 import { NavBar } from "./components/NavBar";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
+import Profile from './pages/Profile';
 import Register from "./pages/Register";
 import ImageQuery from "./pages/ImageQuery";
 import TextQuery from "./pages/TextQuery";
@@ -58,6 +59,7 @@ function App() {
               <Route path="/findbyimage" element={<ImageQuery />} />
               <Route path="/findbytext" element={<TextQuery />} />
               <Route path="/uploadimage" element={<UploadImage token={token}/>} />
+              <Route path="/user/:id" element={<Profile userId={user?.uid} isLoggedIn={!!user} />} />
             </>
           ) : (
             <Route path="*" element={<p>Please log in to access these features.</p>} />

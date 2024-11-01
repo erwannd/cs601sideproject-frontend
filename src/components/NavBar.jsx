@@ -28,9 +28,14 @@ export const NavBar = ({ user, handleLogout }) => {
         </li>
 
         {user ? (
-          <li onClick={handleLogout}>
-            <NavLink to="/">Logout</NavLink>
-          </li>
+          <>
+            <li onClick={handleLogout}>
+              <NavLink to="/">Logout</NavLink>
+            </li>
+            <li>
+              <NavLink to={`/user/${user.uid}`}>Profile</NavLink>
+            </li>
+          </>
         ) : (
           <>
             <li>
