@@ -26,6 +26,9 @@ export const NavBar = ({ user, handleLogout }) => {
         <li>
           <NavLink to="/uploadimage">Upload</NavLink>
         </li>
+        <li>
+          <NavLink to="/generateimage">Generate Image</NavLink>
+        </li>
 
         {user ? (
           <li onClick={handleLogout}>

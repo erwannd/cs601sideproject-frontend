@@ -12,7 +12,7 @@ const Home = ({ userId }) => {
       if (!userId) return;
 
       try {
-        const response = await axios.get('http://localhost:8080/api/images/id', {
+        const response = await axios.get('http://localhost:8080/api/recommendation/id', {
           params: { userId: userId },
         });
 
