@@ -59,7 +59,7 @@ function App() {
               <Route path="/findbyimage" element={<ImageQuery />} />
               <Route path="/findbytext" element={<TextQuery />} />
               <Route path="/uploadimage" element={<UploadImage token={token}/>} />
-              <Route path="/user/:id" element={<Profile userId={user?.uid} isLoggedIn={!!user} />} />
+              <Route path="/user/:id" element={<Profile token={token} userId={user?.uid} isLoggedIn={!!user} />} />
             </>
           ) : (
             <Route path="*" element={<p>Please log in to access these features.</p>} />
