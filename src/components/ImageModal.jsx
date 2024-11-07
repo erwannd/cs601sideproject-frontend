@@ -20,8 +20,13 @@ const ImageModal = ({ imageId, isOpen, onClose }) => {
               params: { id: imageId },
             }
           );
-          setImageData(response.data);
-          setError("");
+
+          if (response.status === 200) {
+            setImageData(response.data);
+            setError("");
+          } else {
+            setError("Failed to fetch image metadata.");
+          }
         } catch (err) {
           console.error("Error fetching image metadata:", err);
           setError("An error occurred while fetching image metadata.");
@@ -30,6 +35,7 @@ const ImageModal = ({ imageId, isOpen, onClose }) => {
           setLoading(false);
         }
       };
+
       fetchImageMetadata();
     }
   }, [imageId, isOpen]);

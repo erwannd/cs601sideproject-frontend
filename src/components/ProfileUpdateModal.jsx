@@ -86,15 +86,6 @@ const ProfileUpdateModal = ({ token, user, closeModal }) => {
               onChange={handleProfileImageChange}
               className="input-large"
             />
-            {/* {user.profilePictureUrl && !profileImage && (
-              <div className="profile-image-container">
-                <img
-                  src={user.profilePictureUrl}
-                  alt="Profile Image"
-                  className="profile-image"
-                />
-              </div>
-            )} */}
           </div>
           <button type="submit" className="submit-button">
             Update Profile
