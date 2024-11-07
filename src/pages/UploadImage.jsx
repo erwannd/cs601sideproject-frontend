@@ -1,8 +1,10 @@
 import axios from 'axios';
 import React, { useState } from 'react';
+import TagSelection from '../components/TagSelection';
 
 const UploadImage = ({ token }) => {
   const [imgFile, setImgFile] = useState(null);
+  const [selectedTags, setSelectedTags] = useState([]);
   const [uploadStatus, setUploadStatus] = useState(null);
 
   const handleImageUpload = async (e) => {
@@ -15,7 +17,14 @@ const UploadImage = ({ token }) => {
 
     try {
       const formData = new FormData();
+      // const tags = ["animal", "dog", "test"];
+      const imgTags = { "tags": selectedTags };
+
       formData.append("image", imgFile);
+      formData.append("tags", new Blob([JSON.stringify(imgTags)], {
+        type: "application/json"
+      }));
+
 
       // TODO: make request to upload to the backend
       const response = await axios.post('http://localhost:8080/api/upload', formData, {
@@ -45,6 +54,7 @@ const UploadImage = ({ token }) => {
           type="file"
           onChange={(e) => setImgFile(e.target.files[0])}
         />
+        <TagSelection setSelectedTags={setSelectedTags}/>
         <button type='submit'>Submit</button>
       </form>
       <p>{uploadStatus}</p>

@@ -29,23 +29,20 @@ const Register = () => {
         password: password
       });
 
-      const data = response.data; // Axios automatically parses JSON
-
-      if (data.success) {
+      if (response.status == 200) {
         // TODO: Maybe redirect user after successful registration?
-        console.log('Registration successful', data);
         setSuccessMessage('Registration successful! Redirecting to login...');
         setTimeout(() => navigate('/login'), 2000);
       } else {
-        setError(data.message || 'Registration failed');
+        setError(`Registration failed: ${response.data}`);
       }
 
     } catch (err) {
       console.log(err);
-      if (err.response && err.response.data && err.response.data.message) {
-        setError(err.response.data.message);
+      if (err.response && err.response.data) {
+        setError(err.response.data);
       } else {
-        setError('Something went wrong. Please try again later.');
+        setError('Registration failed. Cause unknown. Please try again later.');
       }
     }
   };
