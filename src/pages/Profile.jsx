@@ -4,6 +4,8 @@ import axios from "axios";
 import baseProfile from "../assets/base_profile.png";
 import "./Profile.css";
 import "../components/ProfileUpdateModal";
+import ImageCollection from "./ImageCollection";
+import ImageModal from "../components/ImageModal";
 import ProfileUpdateModal from "../components/ProfileUpdateModal";
 
 const Profile = ({ token, userId, isLoggedIn }) => {
@@ -12,6 +14,10 @@ const Profile = ({ token, userId, isLoggedIn }) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [isUserModalOpen, setIsUserModalOpen] = useState(false);
+
+  const [images, setImages] = useState([]);
+  const [isImgModalOpen, setIsImgModalOpen] = useState(false);
+  const [selectedImgId, setSelectedImgId] = useState(null);
 
   // function to fetch user info
   const fetchUser = async () => {
@@ -41,6 +47,45 @@ const Profile = ({ token, userId, isLoggedIn }) => {
     setIsUserModalOpen(false);
   };
 
+  const openImgModal = (imageId) => {
+    setSelectedImgId(imageId);
+    setIsImgModalOpen(true);
+    console.log(imageId);
+    console.log(`open: ${isImgModalOpen}`);
+  };
+
+  const closeImgModal = () => {
+    setIsImgModalOpen(false);
+    setSelectedImgId(null);
+  };
+
+  useEffect(() => {
+    const fetchImages = async () => {
+      if (!userId) return;
+
+      try {
+        const response = await axios.get(
+          "http://localhost:8080/api/images/id",
+          {
+            params: { userId: userId },
+          }
+        );
+
+        if (response.status === 200) {
+          setImages(response.data);
+          setError("");
+        } else {
+          setError("Failed to query images.");
+        }
+      } catch (error) {
+        console.log(error);
+        setError("An error occurred while querying images.");
+      }
+    };
+
+    fetchImages();
+  }, [userId]);
+
   if (loading) return <p>Loading...</p>;
   if (error) return <p>{error}</p>;
 
@@ -48,36 +93,47 @@ const Profile = ({ token, userId, isLoggedIn }) => {
 
   return (
     <div className="profile-container">
-      <div className="profile-image-container">
-        <img
-          className="profile-image"
-          src={user.profilePictureUrl || baseProfile}
-          alt={`${user.userName}'s profile`}
-        />
-      </div>
-      <div className="profile-info">
-        {isOwnProfile ? (
-          <>
-            <h1>Your profile</h1>
-            <p>Email: {user.email}</p>
-            <p>Username: {user.userName}</p>
-            <p>Created: {user.joinedDate}</p>
-            <button onClick={openModal}>Edit Profile</button>
+      <div className="sidebar">
+        <div className="profile-image-container">
+          <img
+            className="profile-image"
+            src={user.profilePictureUrl || baseProfile}
+            alt={`${user.userName}'s profile`}
+          />
+        </div>
+        <div className="profile-info">
+          {isOwnProfile ? (
+            <>
+              <h1>Your profile</h1>
+              <p>Email: {user.email}</p>
+              <p>Username: {user.userName}</p>
+              <p>Created: {user.joinedDate}</p>
+              <button onClick={openModal}>Edit Profile</button>
 
-            {isUserModalOpen && (
-              <ProfileUpdateModal
-                token={token}
-                user={user}
-                closeModal={() => {
-                  closeModal();
-                  fetchUser();
-                }}
-              />
-            )}
-          </>
-        ) : (
-          <h1>{user.userName}'s Profile</h1>
-        )}
+              {isUserModalOpen && (
+                <ProfileUpdateModal
+                  token={token}
+                  user={user}
+                  closeModal={() => {
+                    closeModal();
+                    fetchUser();
+                  }}
+                />
+              )}
+            </>
+          ) : (
+            <h1>{user.userName}'s Profile</h1>
+          )}
+        </div>
+        <div className="additional-content"></div>
+      </div>
+      <div className="image-collection">
+        <ImageCollection images={images} onImgClick={openImgModal} />
+        <ImageModal
+          imageId={selectedImgId}
+          isOpen={isImgModalOpen}
+          onClose={closeImgModal}
+        />
       </div>
     </div>
   );

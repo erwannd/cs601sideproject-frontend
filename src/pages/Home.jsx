@@ -53,7 +53,7 @@ const Home = ({ userId }) => {
   };
 
   return (
-    <div className="text-search-container">
+    <>
       {error && <p className="error-message">{error}</p>}
       {renderResults()}
       <ImageModal
@@ -61,7 +61,7 @@ const Home = ({ userId }) => {
         isOpen={isImgModalOpen}
         onClose={closeImgModal}
       />
-    </div>
+    </>
   );
 };
 
