@@ -2,13 +2,13 @@
     max-width: 1200px;
     margin: 2rem auto;
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));
     gap: 1rem;
 }
 
 .image-div {
-    width: 20rem;
-    height: 17rem;
+    width: 12rem;
+    height: 10rem;
     cursor: pointer;
 }
 
