@@ -34,6 +34,27 @@ const Profile = ({ token, userId, isLoggedIn }) => {
     }
   };
 
+  // function to fetch user images
+  const fetchImages = async () => {
+    if (!userId) return;
+
+    try {
+      const response = await axios.get("http://localhost:8080/api/images/id", {
+        params: { userId: id },
+      });
+
+      if (response.status === 200) {
+        setImages(response.data);
+        setError("");
+      } else {
+        setError("Failed to query images.");
+      }
+    } catch (error) {
+      console.log(error);
+      setError("An error occurred while querying images.");
+    }
+  };
+
   useEffect(() => {
     fetchUser();
     console.log(token);
@@ -60,29 +81,6 @@ const Profile = ({ token, userId, isLoggedIn }) => {
   };
 
   useEffect(() => {
-    const fetchImages = async () => {
-      if (!userId) return;
-
-      try {
-        const response = await axios.get(
-          "http://localhost:8080/api/images/id",
-          {
-            params: { userId: userId },
-          }
-        );
-
-        if (response.status === 200) {
-          setImages(response.data);
-          setError("");
-        } else {
-          setError("Failed to query images.");
-        }
-      } catch (error) {
-        console.log(error);
-        setError("An error occurred while querying images.");
-      }
-    };
-
     fetchImages();
   }, [userId]);
 
