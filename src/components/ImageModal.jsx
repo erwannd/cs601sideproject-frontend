@@ -76,7 +76,6 @@ const ImageModal = ({ imageId, isOpen, onClose }) => {
         <button onClick={onClose} className="close-btn">
           ×
         </button>
-        {loading && <p>Loading...</p>}
         {error && <p className="error-message">{error}</p>}
         {imageData && (
           <div>
@@ -96,7 +95,7 @@ const ImageModal = ({ imageId, isOpen, onClose }) => {
             </div>
             <p>id: {imageData.id}</p>
             <p>title: {imageData.title}</p>
-            <p>url: {imageData.url}</p>
+            <img className="img-content" src={imageData.url} alt="Preview" />
             <p>
               tags:{""}
               {imageData.tags.map((item, index) => (

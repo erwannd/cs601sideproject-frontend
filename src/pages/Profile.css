@@ -1,7 +1,6 @@
 .profile-container {
   display: flex;
   /* justify-content: flex-start; */
-  max-width: 1000px;
   padding: 1rem;
   background-color: #a5b0ee;
   border-radius: 10px;
@@ -10,7 +9,7 @@
 .sidebar {
   display: flex;
   flex-direction: column;
-  width: 30%;
+  width: 40%;
   padding-right: 1rem;
 }
 

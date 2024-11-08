@@ -6,12 +6,6 @@
   gap: 1rem;
 }
 
-/* .image-div {
-    width: 12rem;
-    height: 10rem;
-    cursor: pointer;
-} */
-
 .image-div {
   width: 100%; /* Adjust to fit within grid column */
   aspect-ratio: 4/3; /* Keep a consistent aspect ratio */
