@@ -40,12 +40,17 @@ const UploadImage = ({ token }) => {
 
       if (response.status === 200) {
         setUploadStatus("Image uploaded successfully");
+        setImgFile(null);
+        setSelectedTags([]);
       } else {
         setUploadStatus("Image upload failed");
+        setImgFile(null);
+        setSelectedTags([]);
       }
     } catch (err) {
       console.log(err);
-      console.log("token: " + token);
+      setImgFile(null);
+      setSelectedTags([]);
       setUploadStatus("Error encountered during upload");
     }
   };

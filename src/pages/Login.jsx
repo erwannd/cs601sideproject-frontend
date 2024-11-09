@@ -1,23 +1,31 @@
-import React, { useState } from 'react';
-import { setPersistence, browserLocalPersistence, signInWithEmailAndPassword } from 'firebase/auth';
-import { auth } from '../config/firebaseconfig.js';
-import { useNavigate } from 'react-router-dom';
+import React, { useState } from "react";
+import {
+  setPersistence,
+  browserLocalPersistence,
+  signInWithEmailAndPassword,
+} from "firebase/auth";
+import { auth } from "../config/firebaseconfig.js";
+import { useNavigate } from "react-router-dom";
 
 const Login = ({ setUser }) => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
   const navigate = useNavigate();
 
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
       await setPersistence(auth, browserLocalPersistence);
-      const userCredential = await signInWithEmailAndPassword(auth, email, password);
+      const userCredential = await signInWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
       setUser(userCredential.user);
-      navigate('/');
+      navigate("/");
     } catch (err) {
-      setError('Invalid email or password');
+      setError("Invalid email or password");
     }
   };
 
@@ -30,14 +38,20 @@ const Login = ({ setUser }) => {
           type="email"
           value={email}
           placeholder="Email"
-          onChange={(e) => setEmail(e.target.value)}
+          onChange={(e) => {
+            setEmail(e.target.value);
+            setError("");
+          }}
           required
         />
         <input
           type="password"
           value={password}
           placeholder="Password"
-          onChange={(e) => setPassword(e.target.value)}
+          onChange={(e) => {
+            setPassword(e.target.value);
+            setError("");
+          }}
           required
         />
         <button type="submit">Login</button>
