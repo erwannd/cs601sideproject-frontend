@@ -1,6 +1,6 @@
 .images-container {
-  max-width: 1200px;
-  margin: 2rem auto;
+  width: 100%;
+  margin: 2rem 0;
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));
   gap: 1rem;

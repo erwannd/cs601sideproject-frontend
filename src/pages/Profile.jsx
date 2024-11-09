@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import { Link } from "react-router-dom";
 import axios from "axios";
 import baseProfile from "../assets/base_profile.png";
 import "./Profile.css";
@@ -18,6 +19,7 @@ const Profile = ({ token, userId, isLoggedIn }) => {
   const [images, setImages] = useState([]);
   const [isImgModalOpen, setIsImgModalOpen] = useState(false);
   const [selectedImgId, setSelectedImgId] = useState(null);
+  const [friends, setFriends] = useState(null);
 
   // function to fetch user info
   const fetchUser = async () => {
@@ -49,9 +51,29 @@ const Profile = ({ token, userId, isLoggedIn }) => {
       } else {
         setError("Failed to query images.");
       }
-    } catch (error) {
-      console.log(error);
-      setError("An error occurred while querying images.");
+    } catch (err) {
+      console.log(err);
+      setError("An error occurred while querying images");
+    }
+  };
+
+  const fetchFriendList = async () => {
+    if (id !== userId) return;
+
+    try {
+      const response = await axios.get(`http://localhost:8080/users/friends`, {
+        params: { userId: id },
+      });
+
+      if (response.status === 200) {
+        setFriends(response.data);
+        setError("");
+      } else {
+        setError("Failed to fetch friends list");
+      }
+    } catch (err) {
+      console.log(err);
+      setError("An error occurred while fetching friends list");
     }
   };
 
@@ -59,6 +81,14 @@ const Profile = ({ token, userId, isLoggedIn }) => {
     fetchUser();
     console.log(token);
   }, [id]);
+
+  useEffect(() => {
+    fetchImages();
+  }, [id, userId]);
+
+  useEffect(() => {
+    fetchFriendList();
+  }, [id, userId]);
 
   const openModal = () => {
     setIsUserModalOpen(true);
@@ -78,10 +108,6 @@ const Profile = ({ token, userId, isLoggedIn }) => {
     setSelectedImgId(null);
   };
 
-  useEffect(() => {
-    fetchImages();
-  }, [userId]);
-
   if (loading) return <p>Loading...</p>;
   if (error) return <p>{error}</p>;
 
@@ -100,7 +126,6 @@ const Profile = ({ token, userId, isLoggedIn }) => {
         <div className="profile-info">
           {isOwnProfile ? (
             <>
-              <h1>Your profile</h1>
               <p>Email: {user.email}</p>
               <p>Username: {user.userName}</p>
               <p>Created: {user.joinedDate}</p>
@@ -121,7 +146,31 @@ const Profile = ({ token, userId, isLoggedIn }) => {
             <h1>{user.userName}'s Profile</h1>
           )}
         </div>
-        <div className="additional-content"></div>
+        <div className="additional-content">
+          {isOwnProfile && (
+            <div className="friends-list">
+              <h3>Your Friends</h3>
+              {friends && friends.length > 0 ? (
+                <ul>
+                  {friends.map((friend) => (
+                    <Link to={`/user/${friend.userId}`} className="owner-link">
+                      <div className="friend-item">
+                        <img
+                          src={friend.profilePictureUrl || baseProfile}
+                          alt={`${friend.userName}'s profile`}
+                          className="profile-picture"
+                        />
+                        <p>{friend.userName}</p>
+                      </div>
+                    </Link>
+                  ))}
+                </ul>
+              ) : (
+                <p>You have no friends added yet.</p>
+              )}
+            </div>
+          )}
+        </div>
       </div>
       <div className="image-collection">
         <ImageCollection images={images} onImgClick={openImgModal} />
