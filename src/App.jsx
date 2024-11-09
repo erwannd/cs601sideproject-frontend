@@ -56,7 +56,7 @@ function App() {
             <>
               <Route path="/findbyimage" element={<ImageQuery />} />
               <Route path="/findbytext" element={<TextQuery />} />
-              <Route path="/generateimage" element={<AIprompt />} />
+              <Route path="/generateimage" element={<AIprompt token={token}/>} />
               <Route
                 path="/uploadimage"
                 element={<UploadImage token={token} />}
