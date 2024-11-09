@@ -20,6 +20,7 @@ const Profile = ({ token, userId, isLoggedIn }) => {
   const [isImgModalOpen, setIsImgModalOpen] = useState(false);
   const [selectedImgId, setSelectedImgId] = useState(null);
   const [friends, setFriends] = useState(null);
+  const [isFriend, setIsFriend] = useState(false);
 
   // function to fetch user info
   const fetchUser = async () => {
@@ -58,15 +59,14 @@ const Profile = ({ token, userId, isLoggedIn }) => {
   };
 
   const fetchFriendList = async () => {
-    if (id !== userId) return;
-
     try {
       const response = await axios.get(`http://localhost:8080/users/friends`, {
-        params: { userId: id },
+        params: { userId: userId },
       });
 
       if (response.status === 200) {
         setFriends(response.data);
+        setIsFriend(response.data.some((friend) => friend.userId === id));
         setError("");
       } else {
         setError("Failed to fetch friends list");
@@ -77,9 +77,35 @@ const Profile = ({ token, userId, isLoggedIn }) => {
     }
   };
 
+  // function to add friend
+  const handleAddFriend = async () => {
+    try {
+      await axios.post(`http://localhost:8080/users/friends`, null, {
+        params: { userId: userId, friendId: id },
+      });
+      setIsFriend(true);
+    } catch (err) {
+      console.log(err);
+      setError("Failed to add friend");
+    }
+  };
+
+  // function to remove friend
+  const handleRemoveFriend = async () => {
+    try {
+      await axios.delete(`http://localhost:8080/users/friends`, {
+        params: { userId: userId, friendId: id },
+      });
+      setIsFriend(false);
+    } catch (err) {
+      console.log(err);
+      setError("Failed to remove friend");
+    }
+  };
+
   useEffect(() => {
     fetchUser();
-    console.log(token);
+    // console.log(token);
   }, [id]);
 
   useEffect(() => {
@@ -147,11 +173,11 @@ const Profile = ({ token, userId, isLoggedIn }) => {
           )}
         </div>
         <div className="additional-content">
-          {isOwnProfile && (
+          {isOwnProfile ? (
             <div className="friends-list">
               <h3>Your Friends</h3>
               {friends && friends.length > 0 ? (
-                <ul>
+                <>
                   {friends.map((friend) => (
                     <Link to={`/user/${friend.userId}`} className="owner-link">
                       <div className="friend-item">
@@ -164,11 +190,21 @@ const Profile = ({ token, userId, isLoggedIn }) => {
                       </div>
                     </Link>
                   ))}
-                </ul>
+                </>
               ) : (
                 <p>You have no friends added yet.</p>
               )}
             </div>
+          ) : (
+            <>
+              {isLoggedIn && (
+                <button
+                  onClick={isFriend ? handleRemoveFriend : handleAddFriend}
+                >
+                  {isFriend ? "Remove Friend" : "Add Friend"}
+                </button>
+              )}
+            </>
           )}
         </div>
       </div>

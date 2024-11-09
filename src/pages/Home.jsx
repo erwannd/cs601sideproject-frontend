@@ -12,7 +12,7 @@ const Home = ({ userId }) => {
   const openImgModal = (imageId) => {
     setSelectedImgId(imageId);
     setIsImgModalOpen(true);
-    console.log(imageId);
+    // console.log(imageId);
   };
 
   const closeImgModal = () => {
