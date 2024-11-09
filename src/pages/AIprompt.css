@@ -1,0 +1,34 @@
+.ai-prompt-container {
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
+}
+
+.text-search-container {
+  width: 30%;
+}
+
+.text-query-form input {
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+}
+
+.image-preview {
+  width: 70%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.image-preview img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+}
+
+.text-query-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
